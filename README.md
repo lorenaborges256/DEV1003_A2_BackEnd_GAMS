@@ -1,4 +1,5 @@
 # DEV1003_A2_BackEnd_GAMS
+
 Back-end REST API for the Guild Availability Management System (GAMS) — a MERN stack project for DEV1003 at Coder Academy. Built with Node.js, Express and MongoDB, handling auth, reservations, contracts, watchlists and notifications.
 
 ## 1. Contributing
@@ -9,7 +10,6 @@ For other devs looking to contribute to the project, please follow the following
 - **Conventional Commits**: Follow conventional commit format (`feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`) for clear commit history
 - **Pull Requests**: Pull requests with no explanation will not be merged, please leave detailed comments in your code!
 - **Issues**: Issues must be clear and concise, vague issues are non-issues!
-
 
 ## 2. Database Entities
 
@@ -163,4 +163,3 @@ Generated automatically when a watched Item is restocked or a watched Contract o
 | `jest`      | Testing framework                                           |
 | `supertest` | HTTP assertions for testing Express routes                  |
 | `nodemon`   | Auto-restarts the server on file changes during development |
-
