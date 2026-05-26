@@ -19,7 +19,7 @@ app.use(express.json());
 // app.use('/dashboard', require('./routes/dashboardRoutes'));
 
 // Global error handling middleware
-app.use((err, request, response) => {
+app.use((err, request, response, next) => {
   const status = err.status || 500;
   response.status(status).json({ error: err.message || 'Internal Server Error' });
 });
