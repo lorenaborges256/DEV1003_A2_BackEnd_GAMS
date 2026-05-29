@@ -19,7 +19,8 @@ app.use('/auth', require('./routes/authRoutes'));
 // app.use('/dashboard', require('./routes/dashboardRoutes'));
 
 // Global error handling middleware
-app.use((err, request, response, next) => {
+// Underscore prefix tells ESLint it is intentionally unused
+app.use((err, request, response, _next) => {
   const status = err.status || 500;
   response.status(status).json({ error: err.message || 'Internal Server Error' });
 });

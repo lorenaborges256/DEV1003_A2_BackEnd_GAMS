@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { register, login, logout } = require('../controllers/authController');
+const verifyToken = require('../middleware/verifyToken');
 
 // POST /auth/register — create a new user account
 router.post('/register', register);
@@ -10,6 +11,6 @@ router.post('/register', register);
 router.post('/login', login);
 
 // POST /auth/logout — instruct the client to discard the token
-router.post('/logout', logout);
+router.post('/logout', verifyToken, logout);
 
 module.exports = router;

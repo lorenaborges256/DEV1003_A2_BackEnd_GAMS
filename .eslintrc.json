@@ -8,6 +8,7 @@
   "rules": {
     "no-console": "warn",
     "no-underscore-dangle": "off",
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": ["error", "unix"],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   }
 }
