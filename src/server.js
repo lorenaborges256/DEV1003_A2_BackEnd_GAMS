@@ -10,8 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes (uncomment as you build them)
-// app.use('/auth', require('./routes/authRoutes'));
+// Routes
+app.use('/auth', require('./routes/authRoutes'));
 // app.use('/items', require('./routes/itemRoutes'));
 // app.use('/quests', require('./routes/questRoutes'));
 // app.use('/watchlist', require('./routes/watchlistRoutes'));
@@ -19,7 +19,8 @@ app.use(express.json());
 // app.use('/dashboard', require('./routes/dashboardRoutes'));
 
 // Global error handling middleware
-app.use((err, request, response, next) => {
+// Underscore prefix tells ESLint it is intentionally unused
+app.use((err, request, response, _next) => {
   const status = err.status || 500;
   response.status(status).json({ error: err.message || 'Internal Server Error' });
 });

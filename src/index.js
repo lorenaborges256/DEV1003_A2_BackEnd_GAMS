@@ -1,14 +1,13 @@
-// Connect to the database
-const mongoose = require('mongoose');
 // Import the server from server.js
 const app = require('./server');
 
 // Load up environment variables
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('DB connection error:', err));
+// Connect to the database
+const connectDB = require('./config/db');
+
+connectDB();
 
 // Run the server
 const PORT = process.env.PORT || 5000;
