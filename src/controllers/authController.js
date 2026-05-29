@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -10,19 +9,19 @@ const generateToken = (userId, role) => jwt.sign(
 );
 
 // POST /auth/register
-const register = async (req, res, next) => {
+const register = async (request, response, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = request.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ error: 'Email is already registered' });
+      return response.status(409).json({ error: 'Email is already registered' });
     }
 
     const user = await User.create({ name, email, password });
     const token = generateToken(user._id, user.role);
 
-    return res.status(201).json({
+    return response.status(201).json({
       message: 'User registered successfully',
       token,
       user: {
@@ -38,23 +37,23 @@ const register = async (req, res, next) => {
 };
 
 // POST /auth/login
-const login = async (req, res, next) => {
+const login = async (request, response, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = request.body;
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return response.status(401).json({ error: 'Invalid email or password' });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return response.status(401).json({ error: 'Invalid email or password' });
     }
 
     const token = generateToken(user._id, user.role);
 
-    return res.status(200).json({
+    return response.status(200).json({
       message: 'Login successful',
       token,
       user: {
@@ -70,7 +69,7 @@ const login = async (req, res, next) => {
 };
 
 // POST /auth/logout
-const logout = (req, res) => res.status(200).json({
+const logout = (request, response) => response.status(200).json({
   message: 'Logged out successfully. Please discard your token on the client.',
 });
 
