@@ -6,6 +6,7 @@ require('dotenv').config();
 
 // Connect to the database
 const connectDB = require('./config/db');
+
 connectDB();
 
 // Run the server

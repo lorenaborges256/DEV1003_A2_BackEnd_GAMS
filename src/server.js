@@ -10,8 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes (uncomment as you build them)
-// app.use('/auth', require('./routes/authRoutes'));
+// Routes
+app.use('/auth', require('./routes/authRoutes'));
 // app.use('/items', require('./routes/itemRoutes'));
 // app.use('/quests', require('./routes/questRoutes'));
 // app.use('/watchlist', require('./routes/watchlistRoutes'));
