@@ -1,5 +1,6 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
+const isAdmin = require('../middleware/isAdmin');
 const Item = require('../models/Item');
 
 const router = express.Router();
@@ -29,6 +30,32 @@ router.get('/', verifyToken, async (request, response, next) => {
 router.get('/:id', verifyToken, async (request, response, next) => {
   try {
     const item = await Item.findById(request.params.id);
+
+    if (!item) {
+      return response.status(404).json({ error: 'Item not found.' });
+    }
+
+    return response.status(200).json(item);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.post('/', verifyToken, isAdmin, async (request, response, next) => {
+  try {
+    const item = await Item.create(request.body);
+    return response.status(201).json(item);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.put('/:id', verifyToken, isAdmin, async (request, response, next) => {
+  try {
+    const item = await Item.findByIdAndUpdate(request.params.id, request.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!item) {
       return response.status(404).json({ error: 'Item not found.' });
