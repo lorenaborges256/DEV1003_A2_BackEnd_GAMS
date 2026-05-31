@@ -53,7 +53,7 @@ router.post('/', verifyToken, isAdmin, async (request, response, next) => {
 router.put('/:id', verifyToken, isAdmin, async (request, response, next) => {
   try {
     const item = await Item.findByIdAndUpdate(request.params.id, request.body, {
-      new: true,
+      returnDocument: 'after',
       runValidators: true,
     });
 
