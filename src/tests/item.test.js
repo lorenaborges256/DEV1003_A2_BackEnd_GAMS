@@ -53,3 +53,34 @@ describe('GET /items', () => {
     expect(response.status).toBe(401);
   });
 });
+
+describe('POST /items (admin)', () => {
+  it('returns 201 when admin creates an item', async () => {
+    const response = await request(app)
+      .post('/items')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'Jest Test Item',
+        description: 'An item created during Jest testing.',
+        category: 'Test',
+        price: 10,
+        stockQuantity: 5,
+      });
+    expect(response.status).toBe(201);
+    itemId = response.body._id;
+  });
+
+  it('returns 403 when a regular user tries to create an item', async () => {
+    const response = await request(app)
+      .post('/items')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        name: 'Jest Test Item',
+        description: 'An item created during Jest testing.',
+        category: 'Test',
+        price: 10,
+        stockQuantity: 5,
+      });
+    expect(response.status).toBe(403);
+  });
+});
