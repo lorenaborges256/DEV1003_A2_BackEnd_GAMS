@@ -38,7 +38,11 @@ router.get('/:id', verifyToken, async (request, response, next) => {
       return response.status(404).json({ error: 'Contract not found.' });
     }
 
-    return response.status(200).json(contract);
+    return response.status(200).json({
+      ...contract.toObject(),
+      isAvailable: contract.isAvailable(),
+      placesRemaining: contract.maxAcceptances - contract.currentAcceptances,
+    });
   } catch (error) {
     return next(error);
   }
