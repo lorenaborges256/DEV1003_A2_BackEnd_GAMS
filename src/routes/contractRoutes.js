@@ -70,4 +70,38 @@ router.put('/:id', verifyToken, isAdmin, async (request, response, next) => {
   }
 });
 
+router.post('/:id/accept', verifyToken, async (request, response, next) => {
+  try {
+    const contract = await Contract.findById(request.params.id);
+
+    if (!contract) {
+      return response.status(404).json({ error: 'Contract not found.' });
+    }
+
+    if (!contract.isAvailable()) {
+      return response.status(400).json({ error: 'Contract is not currently available.' });
+    }
+
+    contract.currentAcceptances += 1;
+    await contract.save();
+
+    const acceptance = await ContractAcceptance.create({
+      user: request.user.id,
+      contract: contract._id,
+      instructions: `Present this acceptance to the guild upon completion to collect your reward. Contract: ${contract.title}. Reward: ${contract.rewardAmount} Gold.`,
+    });
+
+    return response.status(201).json({
+      message: 'Contract accepted successfully.',
+      instructions: acceptance.instructions,
+      contract: {
+        id: contract._id,
+        title: contract.title,
+      },
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
