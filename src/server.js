@@ -3,6 +3,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -18,11 +19,12 @@ app.use('/contracts', require('./routes/contractRoutes'));
 // app.use('/notifications', require('./routes/notificationRoutes'));
 // app.use('/dashboard', require('./routes/dashboardRoutes'));
 
-// Global error handling middleware
-// Underscore prefix tells ESLint it is intentionally unused
-app.use((err, request, response, _next) => {
-  const status = err.status || 500;
-  response.status(status).json({ error: err.message || 'Internal Server Error' });
+// 404 — catch-all for any route that does not match the above
+app.use((request, response) => {
+  response.status(404).json({ error: `Route not found: ${request.method} ${request.originalUrl}` });
 });
+
+// Global error handling middleware — must be registered last
+app.use(errorHandler);
 
 module.exports = app;
