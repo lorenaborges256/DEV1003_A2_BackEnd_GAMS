@@ -100,3 +100,20 @@ describe('GET /items/:id', () => {
     expect(response.status).toBe(404);
   });
 });
+
+describe('POST /items/:id/reserve', () => {
+  it('returns 201 and a reservation number when item is available', async () => {
+    const response = await request(app)
+      .post(`/items/${itemId}/reserve`)
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(201);
+    expect(response.body.reservationNumber).toBeDefined();
+  });
+
+  it('returns 404 when item does not exist', async () => {
+    const response = await request(app)
+      .post('/items/111111111111111111111111/reserve')
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(404);
+  });
+});
