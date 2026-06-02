@@ -84,3 +84,19 @@ describe('POST /items (admin)', () => {
     expect(response.status).toBe(403);
   });
 });
+
+describe('GET /items/:id', () => {
+  it('returns 200 and the item for a valid id', async () => {
+    const response = await request(app)
+      .get(`/items/${itemId}`)
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(200);
+  });
+
+  it('returns 404 for an item that does not exist', async () => {
+    const response = await request(app)
+      .get('/items/111111111111111111111111')
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(404);
+  });
+});
