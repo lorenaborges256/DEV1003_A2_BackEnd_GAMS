@@ -29,4 +29,21 @@ router.post('/', verifyToken, async (request, response, next) => {
   }
 });
 
+router.delete('/:id', verifyToken, async (request, response, next) => {
+  try {
+    const watchlistEntry = await Watchlist.findOneAndDelete({
+      _id: request.params.id,
+      user: request.user.id,
+    });
+
+    if (!watchlistEntry) {
+      return response.status(404).json({ error: 'Watchlist entry not found.' });
+    }
+
+    return response.status(200).json({ message: 'Removed from watchlist.' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
