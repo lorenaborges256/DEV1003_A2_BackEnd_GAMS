@@ -51,3 +51,42 @@ describe('GET /contracts', () => {
     expect(response.status).toBe(401);
   });
 });
+
+describe('POST /contracts (admin)', () => {
+  it('returns 201 when admin creates a contract', async () => {
+    const response = await request(app)
+      .post('/contracts')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        title: 'Jest Test Contract',
+        description: 'A contract created during Jest testing.',
+        type: 'Combat',
+        difficulty: 'Easy',
+        rewardDescription: 'Gold and reputation.',
+        rewardAmount: 100,
+        startAt: '2026-01-01T00:00:00.000Z',
+        endAt: '2026-12-31T00:00:00.000Z',
+        maxAcceptances: 5,
+      });
+    expect(response.status).toBe(201);
+    contractId = response.body._id;
+  });
+
+  it('returns 403 when a regular user tries to create a contract', async () => {
+    const response = await request(app)
+      .post('/contracts')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        title: 'Jest Test Contract',
+        description: 'A contract created during Jest testing.',
+        type: 'Combat',
+        difficulty: 'Easy',
+        rewardDescription: 'Gold and reputation.',
+        rewardAmount: 100,
+        startAt: '2026-01-01T00:00:00.000Z',
+        endAt: '2026-12-31T00:00:00.000Z',
+        maxAcceptances: 5,
+      });
+    expect(response.status).toBe(403);
+  });
+});
