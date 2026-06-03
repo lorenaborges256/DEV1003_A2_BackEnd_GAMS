@@ -1,11 +1,16 @@
 const jwt = require('jsonwebtoken');
 
+// Verifies the Bearer JWT in the Authorization header.
+// Attaches the decoded payload to request.user for downstream use.
+// Forwards any JWT errors to the global error handler via next(err).
 const verifyToken = (request, response, next) => {
   // Read the Authorization header — expected format: "Bearer <token>"
   const authHeader = request.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return response.status(401).json({ error: 'Access denied. No token provided.' });
+    const err = new Error('Access denied. No token provided.');
+    err.status = 401;
+    return next(err);
   }
 
   const token = authHeader.split(' ')[1];
@@ -16,7 +21,8 @@ const verifyToken = (request, response, next) => {
     request.user = decoded;
     return next();
   } catch (err) {
-    return response.status(401).json({ error: 'Invalid or expired token.' });
+    // Forward JsonWebTokenError and TokenExpiredError to the global error handler
+    return next(err);
   }
 };
 

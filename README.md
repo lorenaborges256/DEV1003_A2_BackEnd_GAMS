@@ -2,20 +2,21 @@
 
 Back-end REST API for the Guild Availability Management System (GAMS) — a MERN stack project for DEV1003 at Coder Academy. Built with Node.js, Express and MongoDB, handling auth, reservations, contracts, watchlists and notifications.
 
-## 1. Contributing
-
-For other devs looking to contribute to the project, please follow the following guidelines:
-
-- **Branching and Forking**: Fork the repository and create feature branches from `main` using descriptive names (`feature/user-auth`, `fix/rating-bug`)
-- **Conventional Commits**: Follow conventional commit format (`feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`) for clear commit history
-- **Pull Requests**: Pull requests with no explanation will not be merged, please leave detailed comments in your code!
-- **Issues**: Issues must be clear and concise, vague issues are non-issues!
-
-## 2. Tecnologies
+## 1. Tecnologies
 
 The technologies used in this project reflect the tools and practices taught throughout DEV1003 — Advanced Applications at Coder Academy. Each dependency was selected in alignment with the course curriculum, ensuring that the stack represents current industry standards and prepares the team for professional software development environments.
 
-## Production Dependencies Packages
+### 2.1 Hardware Requeriments
+
+write here
+
+### 2.2 Software Requeriments
+
+write here
+
+### 2.2.1 Production Dependencies Packages
+
+write about
 
 | Package        | Purpose                                              |
 | -------------- | ---------------------------------------------------- |
@@ -26,7 +27,9 @@ The technologies used in this project reflect the tools and practices taught thr
 | `cors`         | Allow cross-origin requests from the React front-end |
 | `dotenv`       | Load environment variables from `.env`               |
 
-## Development Dependencies Packages
+### 2.2.2 Development Dependencies Packages
+
+write about
 
 | Package     | Purpose                                                     |
 | ----------- | ----------------------------------------------------------- |
@@ -34,7 +37,9 @@ The technologies used in this project reflect the tools and practices taught thr
 | `supertest` | HTTP assertions for testing Express routes                  |
 | `nodemon`   | Auto-restarts the server on file changes during development |
 
-## 2. Database Entities
+## 2. Entities
+
+where they come, why they are here, Entities tell us its attributes and its relationships with other entities
 
 ![ERD GAMS](img/guild-erd.png)
 
@@ -167,3 +172,121 @@ Generated automatically when a watched Item is restocked or a watched Contract o
 | Target | Notification | One-to-Many |
 
 ---
+
+## 3. API Endpoints
+
+Once the ERD is solid, you derive your API endpoints. Each entity needs routes for the operations users perform on it, as described in the user stories. If an action appears in a user story, it needs an endpoint. If an entity appears in the ERD, it needs routes. If a persona has restricted access, it needs middleware. Three Sources that tell you what endpoints to build:
+- ### Source 1 — User Stories (the "what")
+Every user story describes an action a user needs to perform. Each action that involves data being created, read, updated, or deleted requires an endpoint.
+The formula is simple:
+"As a [persona], I want to [action]" → that action needs an API endpoint. 
+For Example:
+User Story Action: Browse available items
+HTTP Verb: GET
+Why: Reading a list of data
+
+- ### Source 2 — ERD (the "who" and "what connects to what")
+The ERD tells you which entities exist and how they relate. Every entity in your ERD that a user interacts with needs at minimum a GET endpoint. Every entity that gets created, updated, or deleted through user actions needs the corresponding verb.
+Ask these four questions for each entity:
+
+| Question                             | If yes → add this endpoint               |
+| ------------------------------------ | ---------------------------------------- |
+| Does a user need to **see** this?    | `GET /entity` and `GET /entity/:id`      |
+| Does a user need to **create** this? | `POST /entity`                           |
+| Does a user need to **change** this? | `PUT /entity/:id` or `PATCH /entity/:id` |
+| Does a user need to **remove** this? | `DELETE /entity/:id`                     |
+
+- ### Source 3 — Access Control (the "who can do it")
+The user stories define two personas — Guild Member and Guild Administrator. This tells you which endpoints are public, which require authentication, and which require admin role.
+
+| If the action...                    | Then the endpoint is...                      |
+| ----------------------------------- | -------------------------------------------- |
+| Anyone can do it without logging in | Public — no middleware                       |
+| Only logged-in members can do it    | Protected — needs `verifyToken`              |
+| Only admins can do it               | Admin-only — needs `verifyToken` + `isAdmin` |
+
+### GAMS — Full API Endpoint
+
+Legend
+
+| Symbol    | Meaning                                      |
+| --------- | -------------------------------------------- |
+| `—`       | No middleware required (public)              |
+| `VT`      | `verifyToken` — authenticated users only     |
+| `VT + IA` | `verifyToken` + `isAdmin` — admin users only |
+
+- ### Auth — /auth
+
+| # | Method | Path             | Access | Middleware | Description                         |
+| - | ------ | ---------------- | ------ | ---------- | ----------------------------------- |
+| 1 | `POST` | `/auth/register` | Public | `—`        | Register a new guild member account |
+| 2 | `POST` | `/auth/login`    | Public | `—`        | Authenticate and receive a JWT      |
+| 3 | `POST` | `/auth/logout`   | User   | `VT`       | Log out (client discards token)     |
+
+- ### Items — /items
+
+| #  | Method  | Path                    | Access | Middleware | Description                                          |
+| -- | ------- | ----------------------- | ------ | ---------- | ---------------------------------------------------- |
+| 10 | `GET`   | `/contracts`            | User   | `VT`       | Browse all contracts (filter by type / availability) |
+| 11 | `GET`   | `/contracts/:id`        | User   | `VT`       | View a single contract's details                     |
+| 12 | `POST`  | `/contracts/:id/accept` | User   | `VT`       | Accept an available contract                         |
+| 13 | `POST`  | `/contracts`            | Admin  | `VT + IA`  | Create a new contract                                |
+| 14 | `PUT`   | `/contracts/:id`        | Admin  | `VT + IA`  | Edit an existing contract                            |
+| 15 | `PATCH` | `/contracts/:id/dates`  | Admin  | `VT + IA`  | Update contract start and end dates                  |
+
+- ### Contracts — /contracts
+
+| #  | Method  | Path                    | Access | Middleware | Description                                          |
+| -- | ------- | ----------------------- | ------ | ---------- | ---------------------------------------------------- |
+| 10 | `GET`   | `/contracts`            | User   | `VT`       | Browse all contracts (filter by type / availability) |
+| 11 | `GET`   | `/contracts/:id`        | User   | `VT`       | View a single contract's details                     |
+| 12 | `POST`  | `/contracts/:id/accept` | User   | `VT`       | Accept an available contract                         |
+| 13 | `POST`  | `/contracts`            | Admin  | `VT + IA`  | Create a new contract                                |
+| 14 | `PUT`   | `/contracts/:id`        | Admin  | `VT + IA`  | Edit an existing contract                            |
+| 15 | `PATCH` | `/contracts/:id/dates`  | Admin  | `VT + IA`  | Update contract start and end dates                  |
+
+- ### Reservations — /reservations
+
+| #  | Method   | Path                | Access | Middleware | Description                         |
+| -- | -------- | ------------------- | ------ | ---------- | ----------------------------------- |
+| 16 | `GET`    | `/reservations`     | User   | `VT`       | Get the current user's reservations |
+| 17 | `GET`    | `/reservations/:id` | User   | `VT`       | Get a single reservation's details  |
+| 18 | `DELETE` | `/reservations/:id` | User   | `VT`       | Cancel a reservation                |
+
+- ### Contract Acceptances — /acceptances
+
+| #  | Method   | Path               | Access | Middleware | Description                               |
+| -- | -------- | ------------------ | ------ | ---------- | ----------------------------------------- |
+| 19 | `GET`    | `/acceptances`     | User   | `VT`       | Get the current user's accepted contracts |
+| 20 | `GET`    | `/acceptances/:id` | User   | `VT`       | Get a single acceptance record's details  |
+| 21 | `DELETE` | `/acceptances/:id` | User   | `VT`       | Withdraw from an accepted contract        |
+
+- ### Watchlist — /watchlist
+
+| #  | Method   | Path             | Access | Middleware | Description                              |
+| -- | -------- | ---------------- | ------ | ---------- | ---------------------------------------- |
+| 22 | `GET`    | `/watchlist`     | User   | `VT`       | Get the current user's watchlist         |
+| 23 | `POST`   | `/watchlist`     | User   | `VT`       | Add an item or contract to the watchlist |
+| 24 | `DELETE` | `/watchlist/:id` | User   | `VT`       | Remove an entry from the watchlist       |
+
+- ### Notifications — /notifications
+
+| #  | Method   | Path                      | Access | Middleware | Description                          |
+| -- | -------- | ------------------------- | ------ | ---------- | ------------------------------------ |
+| 25 | `GET`    | `/notifications`          | User   | `VT`       | Get the current user's notifications |
+| 26 | `PATCH`  | `/notifications/:id/read` | User   | `VT`       | Mark a notification as read          |
+| 27 | `DELETE` | `/notifications/:id`      | User   | `VT`       | Delete a notification                |
+
+- ### Dashboard — /dashboard
+
+| #  | Method | Path         | Access | Middleware | Description                                                                               |
+| -- | ------ | ------------ | ------ | ---------- | ----------------------------------------------------------------------------------------- |
+| 28 | `GET`  | `/dashboard` | User   | `VT`       | Get the current user's full summary — reservations, acceptances, and unread notifications |
+
+- ### Admin — /admin
+
+| #  | Method   | Path               | Access | Middleware | Description                       |
+| -- | -------- | ------------------ | ------ | ---------- | --------------------------------- |
+| 29 | `GET`    | `/admin/users`     | Admin  | `VT + IA`  | List all registered users         |
+| 30 | `GET`    | `/admin/users/:id` | Admin  | `VT + IA`  | View a single user's full details |
+| 31 | `DELETE` | `/admin/users/:id` | Admin  | `VT + IA`  | Remove a user from the system     |
