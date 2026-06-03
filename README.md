@@ -39,7 +39,15 @@ write about
 
 ## 2. Entities
 
-where they come, why they are here, Entities tell us its attributes and its relationships with other entities
+Each entity has a model file (schema), a controller file (one function per endpoint), and a route file (one line per endpoint). The API endpoints are defined by the combination of the route file and the controller file, registered together in server.js, and documented in the README.
+
+1. User
+2. Item
+3. Contract
+4. Reservation
+5. Contract Acceptance
+6. Watchlist
+7. Notification
 
 ![ERD GAMS](img/guild-erd.png)
 
