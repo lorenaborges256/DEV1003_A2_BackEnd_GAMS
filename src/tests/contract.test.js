@@ -90,3 +90,36 @@ describe('POST /contracts (admin)', () => {
     expect(response.status).toBe(403);
   });
 });
+
+describe('GET /contracts/:id', () => {
+  it('returns 200 and the contract for a valid id', async () => {
+    const response = await request(app)
+      .get(`/contracts/${contractId}`)
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(200);
+  });
+
+  it('returns 404 for a contract that does not exist', async () => {
+    const response = await request(app)
+      .get('/contracts/111111111111111111111111')
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(404);
+  });
+});
+
+describe('POST /contracts/:id/accept', () => {
+  it('returns 201 and instructions when contract is available', async () => {
+    const response = await request(app)
+      .post(`/contracts/${contractId}/accept`)
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(201);
+    expect(response.body.instructions).toBeDefined();
+  });
+
+  it('returns 404 when contract does not exist', async () => {
+    const response = await request(app)
+      .post('/contracts/111111111111111111111111/accept')
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(404);
+  });
+});
