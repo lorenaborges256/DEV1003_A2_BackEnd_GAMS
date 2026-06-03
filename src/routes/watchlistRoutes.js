@@ -46,4 +46,13 @@ router.delete('/:id', verifyToken, async (request, response, next) => {
   }
 });
 
+router.get('/', verifyToken, async (request, response, next) => {
+  try {
+    const watchlist = await Watchlist.find({ user: request.user.id });
+    return response.status(200).json(watchlist);
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
