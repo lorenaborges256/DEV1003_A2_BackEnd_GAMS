@@ -16,9 +16,11 @@ app.use('/auth', require('./routes/authRoutes'));
 app.use('/items', require('./routes/itemRoutes'));
 app.use('/contracts', require('./routes/contractRoutes'));
 app.use('/acceptances', require('./routes/acceptanceRoutes'));
+app.use('/reservations', require('./routes/reservationRoutes'));
+app.use('/admin', require('./routes/adminRoutes'));
+app.use('/dashboard', require('./routes/dashboardRoutes'));
 app.use('/watchlist', require('./routes/watchlistRoutes'));
 app.use('/notifications', require('./routes/notificationRoutes'));
-// app.use('/dashboard', require('./routes/dashboardRoutes'));
 
 // 404 — catch-all for any route that does not match the above
 app.use((request, response) => {
