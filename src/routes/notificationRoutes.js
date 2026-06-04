@@ -15,4 +15,22 @@ router.get('/', verifyToken, async (request, response, next) => {
   }
 });
 
+router.put('/:id/read', verifyToken, async (request, response, next) => {
+  try {
+    const notification = await Notification.findOneAndUpdate(
+      { _id: request.params.id, user: request.user.id },
+      { status: 'read' },
+      { returnDocument: 'after' },
+    );
+
+    if (!notification) {
+      return response.status(404).json({ error: 'Notification not found.' });
+    }
+
+    return response.status(200).json(notification);
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
