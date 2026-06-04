@@ -15,6 +15,7 @@ app.use(express.json());
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/items', require('./routes/itemRoutes'));
 app.use('/contracts', require('./routes/contractRoutes'));
+app.use('/acceptances', require('./routes/acceptanceRoutes'));
 app.use('/watchlist', require('./routes/watchlistRoutes'));
 app.use('/notifications', require('./routes/notificationRoutes'));
 // app.use('/dashboard', require('./routes/dashboardRoutes'));
