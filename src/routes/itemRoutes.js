@@ -101,4 +101,18 @@ router.post('/:id/reserve', verifyToken, async (request, response, next) => {
   }
 });
 
+router.delete('/:id', verifyToken, isAdmin, async (request, response, next) => {
+  try {
+    const item = await Item.findByIdAndDelete(request.params.id);
+
+    if (!item) {
+      return response.status(404).json({ error: 'Item not found.' });
+    }
+
+    return response.status(200).json({ message: 'Item deleted successfully.' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
