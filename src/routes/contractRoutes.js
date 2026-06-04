@@ -108,4 +108,18 @@ router.post('/:id/accept', verifyToken, async (request, response, next) => {
   }
 });
 
+router.delete('/:id', verifyToken, isAdmin, async (request, response, next) => {
+  try {
+    const contract = await Contract.findByIdAndDelete(request.params.id);
+
+    if (!contract) {
+      return response.status(404).json({ error: 'Contract not found.' });
+    }
+
+    return response.status(200).json({ message: 'Contract deleted successfully.' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
