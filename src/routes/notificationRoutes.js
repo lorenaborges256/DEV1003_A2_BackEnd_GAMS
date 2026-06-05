@@ -64,4 +64,21 @@ router.post('/trigger', verifyToken, async (request, response, next) => {
   }
 });
 
+router.delete('/:id', verifyToken, async (request, response, next) => {
+  try {
+    const notification = await Notification.findOneAndDelete({
+      _id: request.params.id,
+      user: request.user.id,
+    });
+
+    if (!notification) {
+      return response.status(404).json({ error: 'Notification not found.' });
+    }
+
+    return response.status(200).json({ message: 'Notification deleted successfully.' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
