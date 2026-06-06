@@ -1,8 +1,6 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
-const Reservation = require('../models/Reservation');
-const Item = require('../models/Item');
 
 const router = express.Router();
 
