@@ -35,4 +35,30 @@ const getItemById = async (request, response, next) => {
   }
 };
 
-module.exports = { getItems, getItemById };
+const createItem = async (request, response, next) => {
+  try {
+    const item = await Item.create(request.body);
+    return response.status(201).json(item);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+const updateItem = async (request, response, next) => {
+  try {
+    const item = await Item.findByIdAndUpdate(request.params.id, request.body, {
+      returnDocument: 'after',
+      runValidators: true,
+    });
+
+    if (!item) {
+      return next({ status: 404, message: 'Item not found.' });
+    }
+
+    return response.status(200).json(item);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { getItems, getItemById, createItem, updateItem };

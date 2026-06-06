@@ -12,31 +12,9 @@ router.get('/', verifyToken, itemController.getItems);
 
 router.get('/:id', verifyToken, itemController.getItemById);
 
-router.post('/', verifyToken, isAdmin, async (request, response, next) => {
-  try {
-    const item = await Item.create(request.body);
-    return response.status(201).json(item);
-  } catch (error) {
-    return next(error);
-  }
-});
+router.post('/', verifyToken, isAdmin, itemController.createItem);
 
-router.put('/:id', verifyToken, isAdmin, async (request, response, next) => {
-  try {
-    const item = await Item.findByIdAndUpdate(request.params.id, request.body, {
-      returnDocument: 'after',
-      runValidators: true,
-    });
-
-    if (!item) {
-      return response.status(404).json({ error: 'Item not found.' });
-    }
-
-    return response.status(200).json(item);
-  } catch (error) {
-    return next(error);
-  }
-});
+router.put('/:id', verifyToken, isAdmin, itemController.updateItem);
 
 router.post('/:id/reserve', verifyToken, async (request, response, next) => {
   try {
