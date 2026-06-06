@@ -1,6 +1,5 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
-const Watchlist = require('../models/Watchlist');
 const watchlistController = require('../controllers/watchlistController');
 
 const router = express.Router();

@@ -1,7 +1,5 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
-const Notification = require('../models/Notification');
-const Watchlist = require('../models/Watchlist');
 const notificationController = require('../controllers/notificationController');
 
 const router = express.Router();
