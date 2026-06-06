@@ -8,10 +8,6 @@ let userToken;
 let adminToken;
 let itemId;
 
-describe('auth routes', () => {
-  it.todo('register, login and logout tests to be added by Person 1');
-});
-
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGODB_URI);
 
