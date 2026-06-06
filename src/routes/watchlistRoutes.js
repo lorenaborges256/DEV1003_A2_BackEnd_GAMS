@@ -1,6 +1,7 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
 const Watchlist = require('../models/Watchlist');
+const watchlistController = require('../controllers/watchlistController');
 
 const router = express.Router();
 
@@ -46,13 +47,6 @@ router.delete('/:id', verifyToken, async (request, response, next) => {
   }
 });
 
-router.get('/', verifyToken, async (request, response, next) => {
-  try {
-    const watchlist = await Watchlist.find({ user: request.user.id });
-    return response.status(200).json(watchlist);
-  } catch (error) {
-    return next(error);
-  }
-});
+router.get('/', verifyToken, watchlistController.getWatchlist);
 
 module.exports = router;
