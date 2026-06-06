@@ -16,51 +16,8 @@ router.post('/', verifyToken, isAdmin, itemController.createItem);
 
 router.put('/:id', verifyToken, isAdmin, itemController.updateItem);
 
-router.post('/:id/reserve', verifyToken, async (request, response, next) => {
-  try {
-    const item = await Item.findById(request.params.id);
+router.post('/:id/reserve', verifyToken, itemController.reserveItem);
 
-    if (!item) {
-      return response.status(404).json({ error: 'Item not found.' });
-    }
-
-    if (!item.isAvailable()) {
-      return response.status(400).json({ error: 'Item is currently unavailable.' });
-    }
-
-    item.stockQuantity -= 1;
-    await item.save();
-
-    const reservation = await Reservation.create({
-      user: request.user.id,
-      item: item._id,
-    });
-
-    return response.status(201).json({
-      message: 'Item reserved successfully.',
-      reservationNumber: reservation.reservationNumber,
-      item: {
-        id: item._id,
-        name: item.name,
-      },
-    });
-  } catch (error) {
-    return next(error);
-  }
-});
-
-router.delete('/:id', verifyToken, isAdmin, async (request, response, next) => {
-  try {
-    const item = await Item.findByIdAndDelete(request.params.id);
-
-    if (!item) {
-      return response.status(404).json({ error: 'Item not found.' });
-    }
-
-    return response.status(200).json({ message: 'Item deleted successfully.' });
-  } catch (error) {
-    return next(error);
-  }
-});
+router.delete('/:id', verifyToken, isAdmin, itemController.deleteItem);
 
 module.exports = router;
