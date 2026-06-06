@@ -4,49 +4,13 @@ const isAdmin = require('../middleware/isAdmin');
 const Contract = require('../models/Contract');
 const ContractAcceptance = require('../models/ContractAcceptance');
 
+const contractController = require('../controllers/contractController');
+
 const router = express.Router();
 
-router.get('/', verifyToken, async (request, response, next) => {
-  try {
-    const filter = {};
+router.get('/', verifyToken, contractController.getContracts);
 
-    if (request.query.type) {
-      filter.type = request.query.type;
-    }
-
-    if (request.query.status === 'available') {
-      const now = new Date();
-      filter.startAt = { $lte: now };
-      filter.endAt = { $gte: now };
-    } else if (request.query.status === 'upcoming') {
-      const now = new Date();
-      filter.startAt = { $gt: now };
-    }
-
-    const contracts = await Contract.find(filter);
-    response.status(200).json(contracts);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/:id', verifyToken, async (request, response, next) => {
-  try {
-    const contract = await Contract.findById(request.params.id);
-
-    if (!contract) {
-      return response.status(404).json({ error: 'Contract not found.' });
-    }
-
-    return response.status(200).json({
-      ...contract.toObject(),
-      isAvailable: contract.isAvailable(),
-      placesRemaining: contract.maxAcceptances - contract.currentAcceptances,
-    });
-  } catch (error) {
-    return next(error);
-  }
-});
+router.get('/:id', verifyToken, contractController.getContractById);
 
 router.post('/', verifyToken, isAdmin, async (request, response, next) => {
   try {
