@@ -1,7 +1,6 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
-
 const contractController = require('../controllers/contractController');
 
 const router = express.Router();

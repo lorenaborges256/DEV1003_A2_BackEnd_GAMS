@@ -1,10 +1,9 @@
 const express = require('express');
 const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
+const itemController = require('../controllers/itemController');
 
 const router = express.Router();
-
-const itemController = require('../controllers/itemController');
 
 router.get('/', verifyToken, itemController.getItems);
 
