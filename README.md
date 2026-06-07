@@ -139,7 +139,7 @@ Automated tests are located in `src/tests/` and are run using Jest as the test r
 | `watchlist.test.js` | `POST /watchlist`, `GET /watchlist`, `DELETE /watchlist/:id` | 9 |
 | **Total** | **13 route functions** | **35 tests** |
 
-![Automated Tests](img\GAMS_Backend_Test_Jest\jest_auth_contract_item_watchlist_test.png)
+![Automated Tests](img/GAMS_Backend_Test_Jest/jest_auth_contract_item_watchlist_test.png)
 
 These four entities were selected because they cover the full range of HTTP verbs (`GET`, `POST`, `DELETE`), both access levels (authenticated user and admin), and the most complex business logic in the application — including role-based access control, duplicate entry prevention, stock availability checks, and contract acceptance limits.
 
@@ -149,7 +149,7 @@ Each test suite follows the same structure: a `beforeAll` block connects to the 
 
 In addition to automated tests, all API endpoints were manually tested using Insomnia, a REST API client that allows HTTP requests to be sent directly to a running server and the responses to be inspected visually. All Screenshots of every test are saved in the img/GAMS_Backend_Tests_Insomnia/ directory.
 
-![Insomnia Tests - auth_POST_login_admin](img\GAMS_Backend_Tests_Insomnia\GAMS_TEST_auth_POST_login_admin_2026-05-31.png)
+![Insomnia Tests - auth_POST_login_admin](img/GAMS_Backend_Tests_Insomnia/GAMS_TEST_auth_POST_login_admin_2026-05-31.png)
 
 The Insomnia tests demonstrate that each endpoint returns the correct HTTP status code, response body, and error messages under real conditions — including authenticated requests with JWT tokens, admin-only access attempts, duplicate entry handling, and not-found scenarios. While these tests are manual and require a human to run and interpret, they serve as visual evidence that the API behaves correctly end-to-end and complement the automated test suite.
 
@@ -179,7 +179,7 @@ The diagram reads top to bottom:
 3. The controller's try/catch block handles the happy path (200/201) and forwards failures to the global error handler
 4. The global errorHandler.js detects the error type and routes it to the correct response (400, 404, 409, or 500)
 
-![Error Handling Flow](img\GAMS_error_flow.png)
+![Error Handling Flow](img/GAMS_error_flow.png)
 
 ## 6. Database Schema and Entity Relationships
 
