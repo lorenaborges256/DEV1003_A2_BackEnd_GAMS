@@ -109,4 +109,11 @@ const reserveItem = async (request, response, next) => {
   }
 };
 
-module.exports = { getItems, getItemById, createItem, updateItem, deleteItem, reserveItem };
+module.exports = {
+  getItems,
+  getItemById,
+  createItem,
+  updateItem,
+  deleteItem,
+  reserveItem,
+};

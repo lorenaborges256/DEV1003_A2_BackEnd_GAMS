@@ -41,14 +41,12 @@ const triggerNotifications = async (request, response, next) => {
     }
 
     const notifications = await Promise.all(
-      watchlistEntries.map((entry) =>
-        Notification.create({
-          user: entry.user,
-          targetId,
-          targetType,
-          message,
-        }),
-      ),
+      watchlistEntries.map((entry) => Notification.create({
+        user: entry.user,
+        targetId,
+        targetType,
+        message,
+      })),
     );
 
     return response.status(201).json({
@@ -77,4 +75,9 @@ const deleteNotification = async (request, response, next) => {
   }
 };
 
-module.exports = { getNotifications, markAsRead, triggerNotifications, deleteNotification };
+module.exports = {
+  getNotifications,
+  markAsRead,
+  triggerNotifications,
+  deleteNotification,
+};
