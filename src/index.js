@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Import the server from server.js
 const app = require('./server');
 

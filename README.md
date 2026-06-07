@@ -2,30 +2,30 @@
 
 ## Courtney Macgregor - Lorena Borges Amaral
 
-### GitHub Repository: https://github.com/lorenaborges256/DEV1003_A2_BackEnd_GAMS
+### GitHub Repository: [https://github.com/lorenaborges256/DEV1003_A2_BackEnd_GAMS](https://github.com/lorenaborges256/DEV1003_A2_BackEnd_GAMS)
 
 ---
 
-# MERN Project - Guild Availability Management System (GAMS)
+## MERN Project - Guild Availability Management System (GAMS)
 
-##  Project Overview
+## Project Overview
 
 The **Guild Availability Management System (GAMS)** is the back-end component of a MERN full-stack application developed as part of DEV1003 — Advanced Applications at Coder Academy. It is a REST API built with Node.js, Express, and MongoDB that manages the operations of a fictional guild — allowing members to browse and reserve items, accept time-limited contracts, and receive notifications when watched items or contracts become available. The API implements role-based access control with two user levels (Guild Member and Guild Administrator), stateless JWT authentication, and a centralised error handling strategy. It is designed to serve as the data and logic layer for a React front-end, with all endpoints structured, secured, and documented in anticipation of that integration.
 
-## 1. Tecnologies
+## 1. Technologies
 
 The technologies used in this project reflect the tools and practices taught throughout DEV1003 — Advanced Applications at Coder Academy. Each dependency was selected in alignment with the course curriculum, ensuring that the stack represents current industry standards and prepares the team for professional software development environments.
 
-### 1.1 Hardware Requiriments
+### 1.1 Hardware Requirements
 
 GAMS is a web-based REST API and has no specialised hardware requirements. Any machine capable of running a modern operating system (Windows 10+, macOS 12+, or Ubuntu 20.04+) with at least **4 GB of RAM** and a stable internet connection is sufficient to develop, run, and test the application. No GPU, dedicated storage device, or proprietary hardware is required.
 
-### 1.2 Software Requiriments
+### 1.2 Software Requirements
 
 The following software must be installed to run the application locally:
 
 | Software | Version | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | Node.js | v18+ | JavaScript runtime that executes the server-side application |
 | npm | v9+ | Package manager used to install all project dependencies |
 | MongoDB Atlas | Cloud (free tier) | Hosted NoSQL database service — no local MongoDB installation required |
@@ -35,8 +35,8 @@ The following software must be installed to run the application locally:
 
 The following packages are installed as runtime dependencies and are required for the application to function in production.
 
-| Package | Purpose in GAMS | Why Chosen Over Alternatives | Alternative Considered | Licence |
-|---|---|---|---|---|
+| Package | Purpose in GAMS | Why Chosen Over Alternatives | Alternative Considered | License |
+| --- | --- | --- | --- | --- |
 | `express ^5.2.1` | Web server framework — handles all HTTP routing, middleware registration, and request/response management | Mature ecosystem, industry standard, and aligns with course curriculum | **Fastify** — higher raw throughput but smaller ecosystem and less course alignment | MIT |
 | `mongoose ^9.6.2` | MongoDB ODM — defines all data schemas, enforces validation rules, and manages the Atlas connection | Schema-based approach enforces data integrity at the application layer, essential for managing reservations and contracts | **MongoDB Native Driver** — lower-level control but no built-in schema validation | MIT |
 | `jsonwebtoken ^9.0.3` | Generates signed JWT tokens on login/register and verifies them on every protected route via `verifyToken` middleware | Stateless authentication — the server stores no session data, making the API scalable and suited for a decoupled MERN architecture | **express-session** — session-based auth requires server-side session storage, less suitable for a separate React front-end | MIT |
@@ -48,8 +48,8 @@ The following packages are installed as runtime dependencies and are required fo
 
 The following packages are used only during development and testing and are not included in the production build.
 
-| Package | Purpose in GAMS | Why Chosen Over Alternatives | Alternative Considered | Licence |
-|---|---|---|---|---|
+| Package | Purpose in GAMS | Why Chosen Over Alternatives | Alternative Considered | License |
+| --- | --- | --- | --- | --- |
 | `jest ^30.4.2` | Test runner — executes all test files in `src/tests/`, provides `describe`, `it`, `expect`, and `beforeAll`/`afterAll` lifecycle hooks | All-in-one solution requiring minimal configuration; current industry default for Node.js and React projects | **Mocha + Chai** — separates test runner from assertion library, requires more configuration | MIT |
 | `supertest ^7.2.2` | Makes real HTTP requests against the Express app in tests without starting a live server | Integrates directly with the Express app instance, making tests faster and fully isolated | **Axios with a running test server** — requires the server to be started separately, slower and less isolated | MIT |
 | `nodemon ^3.1.14` | Watches the file system and automatically restarts the server whenever a source file is saved during development | Greater configurability and broader compatibility than the built-in Node.js watch flag | **Node.js `--watch` flag** — available since Node 18 but less configurable | MIT |
@@ -62,7 +62,7 @@ GAMS uses ten external libraries across production and development. Every librar
 The four core libraries that underpin the application's functionality are:
 
 | Library | Where Imported | How It Is Used |
-|---|---|---|
+| --- | --- | --- |
 | `express` | `src/server.js` and all route files | Creates the application instance, registers global middleware (`cors`, `express.json()`), mounts all route modules, and creates individual `Router` instances for each entity |
 | `mongoose` | `src/config/db.js` and all model files | Establishes and manages the MongoDB Atlas connection, defines all data schemas (User, Item, Contract, etc.), enforces field-level validation, and compiles schemas into models used throughout the application |
 | `jsonwebtoken` | `src/controllers/authController.js` and `src/middleware/verifyToken.js` | Signs a new JWT with `jwt.sign()` on every successful registration and login, and verifies the token with `jwt.verify()` on every protected request via the `verifyToken` middleware |
@@ -75,7 +75,7 @@ The remaining libraries each serve a focused, well-defined role. `cors` is appli
 GAMS uses all four industry-standard HTTP communication features throughout the API, applied correctly and consistently across all routes.
 
 | Feature | What It Is | Where Used in GAMS | Example |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Headers** | Metadata sent alongside an HTTP request, separate from the URL and body | `src/middleware/verifyToken.js` — reads the `Authorization` header on every protected request to extract and validate the JWT token | `request.headers.authorization` → `"Bearer <token>"` |
 | **Body Content** | The data payload sent inside `POST` and `PUT` requests, parsed as JSON | All `POST` and `PUT` route handlers — used to receive data for creating users, items, contracts, watchlist entries, and notifications | `const { name, email, password } = request.body` in `authController.js` |
 | **Params** | Values embedded directly in the URL path to identify a specific resource | All `GET /:id`, `PUT /:id`, and `DELETE /:id` routes — used to look up a single document in the database for reservations, users, notifications, and watchlist entries | `request.params.id` in `reservationController.js`, `adminController.js`, `notificationRoutes.js` |
@@ -85,27 +85,25 @@ GAMS uses all four industry-standard HTTP communication features throughout the 
 
 GAMS uses four industry-standard HTTP verbs across 28 route definitions spanning nine entities. Every verb is applied correctly and consistently, matching its universally agreed CRUD meaning. No verb is misused — for example, no `GET` route modifies data, and no `DELETE` route is used for anything other than removal.
 
-| HTTP Verb | CRUD Operation | Role in GAMS | 
-|---|---|---|
+| HTTP Verb | CRUD Operation | Role in GAMS |
+| --- | --- | --- |
 | `GET` | Read | Retrieve lists and single records |
 | `POST` | Create / Trigger | Create new resources or trigger actions with side effects |
 | `PUT` | Update | Replace or update an existing resource by `:id` |
 | `DELETE` | Delete | Remove a resource permanently |
-
 
 ## 2. DRY Principles
 
 GAMS applies DRY (Don't Repeat Yourself) principles throughout the entire codebase. Repeated logic is extracted into shared modules that are imported wherever needed, rather than duplicated across files.
 
 | Pattern | Where Applied | How It Avoids Repetition |
-|---|---|---|
+| --- | --- | --- |
 | Centralised error handler | `src/middleware/errorHandler.js` | All eight error categories are handled in one file, imported once in `server.js` — no error handling logic is repeated in controllers |
 | `verifyToken` middleware | `src/middleware/verifyToken.js` | JWT verification logic is written once and applied to all 25+ protected routes as a single middleware reference |
 | `isAdmin` middleware | `src/middleware/isAdmin.js` | Role-checking logic is written once and reused across all admin-only routes |
 | `generateToken` helper | `src/controllers/authController.js` | JWT signing logic is extracted into one function used by both `register` and `login` handlers |
 | Controller / Route separation | All entities | Business logic lives in controllers, not inline in route files — each controller function is written once and referenced by its route |
 | Consistent `try/catch` pattern | All controllers | Every async controller follows the same `try { ... } catch (err) { return next(err); }` pattern, keeping error forwarding consistent without repetition |
-
 
 ## 3. Style Guide
 
@@ -118,7 +116,7 @@ npm run lint
 Three rule overrides are applied on top of the Airbnb Base defaults:
 
 | Rule | Setting | Justification |
-|---|---|---|
+| --- | --- | --- |
 | `no-console` | `warn` | Permits startup log messages in `db.js` and `index.js` |
 | `no-underscore-dangle` | `off` | Permits MongoDB's `_id` field and intentionally unused `_next` parameters |
 | `no-unused-vars` | Ignores `_` prefix | Permits required-but-unused Express error handler parameters |
@@ -134,7 +132,7 @@ GAMS uses two complementary approaches to testing: **automated tests** written i
 Automated tests are located in `src/tests/` and are run using Jest as the test runner and Supertest to make real HTTP requests against the Express app without starting a live server.
 
 | Test File | Routes Tested | Tests |
-|---|---|---|
+| --- | --- | --- |
 | `auth.test.js` | `POST /auth/register`, `POST /auth/login`, `POST /auth/logout` | 10 |
 | `item.test.js` | `GET /items`, `POST /items`, `GET /items/:id`, `POST /items/:id/reserve` | 8 |
 | `contract.test.js` | `GET /contracts`, `POST /contracts`, `GET /contracts/:id`, `POST /contracts/:id/accept` | 8 |
@@ -162,10 +160,10 @@ GAMS handles all categories of errors gracefully through a **centralised global 
 The following eight error categories are handled:
 
 | Error Category | HTTP Status | Trigger | Handler |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Validation failure | 400 | Missing or invalid request body fields (Mongoose `ValidationError`) | `errorHandler.js` → `handleValidationError` |
 | Invalid ID | 400 | Malformed `:id` param that cannot be cast to a MongoDB ObjectId (`CastError`) | `errorHandler.js` → `handleCastError` |
-| Unauthorised | 401 | Missing or absent `Authorization` header | `verifyToken.js` |
+| Unauthorized | 401 | Missing or absent `Authorization` header | `verifyToken.js` |
 | Invalid token | 401 | Malformed or tampered JWT (`JsonWebTokenError`) | `errorHandler.js` → `handleJWTError` |
 | Expired token | 401 | JWT past its 7-day expiry (`TokenExpiredError`) | `errorHandler.js` → `handleJWTExpiredError` |
 | Forbidden | 403 | Authenticated user lacks the `admin` role | `isAdmin.js` |
@@ -175,6 +173,7 @@ The following eight error categories are handled:
 
 Here is the error handling flow diagram for GAMS. It traces the full journey of a request from the client through every layer of error detection, showing all eight error categories and their corresponding HTTP status codes.
 The diagram reads top to bottom:
+
 1. Every request first hits verifyToken — three JWT error paths branch off here (401)
 2. Admin-required routes then pass through isAdmin — a 403 branches off here
 3. The controller's try/catch block handles the happy path (200/201) and forwards failures to the global error handler
@@ -320,16 +319,19 @@ The original ERD included a dedicated `Target` table to act as an intermediary b
 ## 6.1  API Endpoints Reference
 
 Once the ERD is solid, you derive your API endpoints. Each entity needs routes for the operations users perform on it, as described in the user stories. If an action appears in a user story, it needs an endpoint. If an entity appears in the ERD, it needs routes. If a persona has restricted access, it needs middleware. Three Sources that tell you what endpoints to build:
+
 - ### Source 1 — User Stories (the "what")
+
 Every user story describes an action a user needs to perform. Each action that involves data being created, read, updated, or deleted requires an endpoint.
 The formula is simple:
-"As a [persona], I want to [action]" → that action needs an API endpoint. 
+"As a [persona], I want to [action]" → that action needs an API endpoint.
 For Example:
 User Story Action: Browse available items
 HTTP Verb: GET
 Why: Reading a list of data
 
 - ### Source 2 — ERD (the "who" and "what connects to what")
+
 The ERD tells you which entities exist and how they relate. Every entity in your ERD that a user interacts with needs at minimum a GET endpoint. Every entity that gets created, updated, or deleted through user actions needs the corresponding verb.
 Ask these four questions for each entity:
 
@@ -341,6 +343,7 @@ Ask these four questions for each entity:
 | Does a user need to **remove** this? | `DELETE /entity/:id`                     |
 
 - ### Source 3 — Access Control (the "who can do it")
+
 The user stories define two personas — Guild Member and Guild Administrator. This tells you which endpoints are public, which require authentication, and which require admin role.
 
 | If the action...                    | Then the endpoint is...                      |
@@ -376,7 +379,6 @@ Legend
 | 6  | `POST` | `/items/:id/reserve`  | User   | `VT`       | Reserve an item (decrements stock by 1)  |
 | 7  | `POST` | `/items`              | Admin  | `VT + IA`  | Create a new item                        |
 | 8  | `PUT`  | `/items/:id`          | Admin  | `VT + IA`  | Update an existing item                  |
-
 
 - ### Contracts — /contracts
 
@@ -414,11 +416,11 @@ Legend
 
 - ### Notifications — /notifications
 
-| #  | Method   | Path                      | Access | Middleware | Description                          |
-| -- | -------- | ------------------------- | ------ | ---------- | ------------------------------------ |
-| 24 | `GET`    | `/notifications`          | User   | `VT`       | Get the current user's notifications |
-| 25 | `PUT`  | `/notifications/:id/read` | User | `VT` | Mark a notification as read |
-| 26 | `DELETE` | `/notifications/:id`      | User   | `VT`       | Delete a notification                |
+| #  | Method   | Path                     | Access | Middleware | Description                          |
+| -- | -------- | ------------------------ | ------ | ---------- | ------------------------------------ |
+| 24 | `GET`    | `/notifications`         | User   | `VT`       | Get the current user's notifications |
+| 25 | `PUT`    | `/notifications/:id/read`| User   | `VT`       | Mark a notification as read          |
+| 26 | `DELETE` | `/notifications/:id`     | User   | `VT`       | Delete a notification                |
 
 - ### Dashboard — /dashboard
 
@@ -445,22 +447,22 @@ Legend
 
 ### 7.2 Installation
 
-1. Clone the repository:
+1.Clone the repository:
 
 ```bash
 git clone https://github.com/lorenaborges256/DEV1003_A2_BackEnd_GAMS.git
 cd DEV1003_A2_BackEnd_GAMS
 ```
 
-2. Install dependencies:
+2.Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Create a .env file in the project root:
+3.Create a .env file in the project root:
 
-```
+```plain text
 PORT=5000
 MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>
 JWT_SECRET=your_secret_key_here
@@ -468,13 +470,13 @@ NODE_ENV=development
 
 ```
 
-4. Start the development server:
+4.Start the development server:
 
 ```bash
 npm run dev
 ```
 
-5. Run the automated tests:
+5.Run the automated tests:
 
 ```bash
 npm test
