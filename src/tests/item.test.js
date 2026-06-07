@@ -1,8 +1,8 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../../src/server');
-const Item = require('../../src/models/Item');
-const User = require('../../src/models/User');
+const app = require('../server');
+const Item = require('../models/Item');
+const User = require('../models/User');
 
 let userToken;
 let adminToken;
