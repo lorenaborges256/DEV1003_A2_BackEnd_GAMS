@@ -22,7 +22,7 @@ const reservationSchema = new mongoose.Schema(
   },
 );
 
-reservationSchema.pre('save', function () {
+reservationSchema.pre('save', function reservationNumberPreSave() {
   if (!this.reservationNumber) {
     this.reservationNumber = `RES-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
   }
