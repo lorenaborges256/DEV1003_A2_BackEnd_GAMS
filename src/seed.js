@@ -14,7 +14,7 @@ const seedData = async () => {
   try {
     const connString = process.env.MONGODB_URI || process.env.DATABASE_URI;
     await mongoose.connect(connString);
-    console.log("Connected to MongoDB.....");
+    console.log("Connected to MongoDB...");
 
     // 1. DROP ALL COLLECTIONS
     const models = [
