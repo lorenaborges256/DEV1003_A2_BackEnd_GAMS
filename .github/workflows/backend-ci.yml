@@ -25,3 +25,5 @@ jobs:
 
       - name: Run tests
         run: npm test -- --runInBand
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
