@@ -26,6 +26,9 @@ describe('POST /auth/register', () => {
       .post('/auth/register')
       .send({ name: TEST_USER_NAME, email: TEST_USER_EMAIL, password: TEST_USER_PASSWORD });
 
+    // torubleshooting
+    console.log('Registration response:', response.body);
+
     expect(response.status).toBe(201);
     expect(response.body.token).toBeDefined();
     expect(response.body.user).toMatchObject({
@@ -83,6 +86,8 @@ describe('POST /auth/login', () => {
       .post('/auth/login')
       .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASSWORD });
 
+    // troubeshooting
+    console.log('Login response:', response.body);
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Login successful');
     expect(response.body.token).toBeDefined();
