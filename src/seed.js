@@ -14,7 +14,7 @@ const seedData = async () => {
   try {
     const connString = process.env.MONGODB_URI || process.env.DATABASE_URI;
     await mongoose.connect(connString);
-    console.log('Connected to MongoDB.....');
+    console.log('Connected to MongoDB...');
 
     // 1. DROP ALL COLLECTIONS
     const models = [
@@ -35,7 +35,6 @@ const seedData = async () => {
 
     console.log('Database cleared.');
 
-    // 2. CREATE USERS
     // const admin = await User.create({
     //   name: "Admin",
     //   email: "admin@gams.com",
@@ -43,6 +42,7 @@ const seedData = async () => {
     //   role: "admin",
     // });
 
+    // 2. CREATE USERS
     await User.create({
       name: 'Admin',
       email: 'admin@gams.com',
