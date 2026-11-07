@@ -22,12 +22,6 @@ const reservationSchema = new mongoose.Schema(
   },
 );
 
-// reservationSchema.pre('save', function () {
-//   if (!this.reservationNumber) {
-//     this.reservationNumber = `RES-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-//   }
-// });
-
 reservationSchema.pre('save', function generateReservationNumber() {
   if (!this.reservationNumber) {
     this.reservationNumber = `RES-${Date.now()}-${Math.floor(Math.random() * 10000)}`;

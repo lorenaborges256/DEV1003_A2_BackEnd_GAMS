@@ -27,20 +27,9 @@ const seedData = async () => {
       Watchlist,
     ];
 
-    // for (const model of models) {
-    //   await model.deleteMany({});
-    // }
-
     await Promise.all(models.map((model) => model.deleteMany({})));
 
     console.log('Database cleared.');
-
-    // const admin = await User.create({
-    //   name: "Admin",
-    //   email: "admin@gams.com",
-    //   password: "password123",
-    //   role: "admin",
-    // });
 
     // 2. CREATE USERS
     await User.create({
