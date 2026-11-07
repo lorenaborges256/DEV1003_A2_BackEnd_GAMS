@@ -1,3 +1,6 @@
+${{ github.ref == 'refs/heads/main' }}
+if: github.ref == 'refs/heads/main'
+
 # DEV1003 - Advanced Applications - Assessment 2 - Construct a Back-end Web Application
 
 ## Courtney Macgregor - Lorena Borges Amaral
