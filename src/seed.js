@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -39,8 +40,14 @@ const seedData = async () => {
       role: 'admin',
     });
     const user = await User.create({
-      name: 'Lorena',
-      email: 'lorena@gams.com',
+      name: 'User',
+      email: 'user@gams.com',
+      password: 'password123',
+      role: 'user',
+    });
+    const userA = await User.create({
+      name: 'User A',
+      email: 'usera@gams.com',
       password: 'password123',
       role: 'user',
     });
@@ -60,6 +67,21 @@ const seedData = async () => {
       price: 50,
       stockQuantity: 100,
     });
+    const bow = await Item.create({
+      name: 'Shadow Bow',
+      description: 'A silent longbow crafted for stealth missions.',
+      category: 'Weapon',
+      price: 600,
+      stockQuantity: 2,
+    });
+
+    const amulet = await Item.create({
+      name: 'Amulet of Vision',
+      description: 'Reveals hidden paths and traps in dark places.',
+      category: 'Quest Item',
+      price: 300,
+      stockQuantity: 0,
+    });
 
     const dragonQuest = await Contract.create({
       title: 'Slay the Dragon',
@@ -72,8 +94,30 @@ const seedData = async () => {
       startAt: new Date(),
       endAt: new Date(Date.now() + 86400000 * 7),
     });
+    const herbsContract = await Contract.create({
+      title: 'Gather Sunpetal Herbs',
+      description: 'Collect 10 rare Sunpetal herbs from the Whispering Meadows before they wilt.',
+      type: 'Gathering',
+      difficulty: 'Easy',
+      rewardDescription: '250 Gold',
+      rewardAmount: 250,
+      maxAcceptances: 5,
+      startAt: new Date(),
+      endAt: new Date(Date.now() + 86400000 * 14),
+    });
+    const scoutContract = await Contract.create({
+      title: 'Scout the Shadow Forest',
+      description: 'Survey the perimeter of the Shadow Forest and report any unusual activity to the guild master.',
+      type: 'Exploration',
+      difficulty: 'Medium',
+      rewardDescription: '500 Gold',
+      rewardAmount: 500,
+      maxAcceptances: 3,
+      startAt: new Date(),
+      endAt: new Date(Date.now() + 86400000 * 30),
+    });
 
-    // 4. CREATE RELATIONAL DATA (Reservations, Acceptances, Watchlists)
+    // 4. CREATE RELATIONAL DATA (Reservations, Acceptances, Watchlists) - User
     await Reservation.create({ user: user._id, item: potion._id });
 
     await ContractAcceptance.create({
@@ -95,6 +139,32 @@ const seedData = async () => {
       targetType: 'Contract',
       message: 'You have been assigned to: Slay the Dragon',
       status: 'unread',
+    });
+    // CREATE RELATIONAL DATA (Reservations, Acceptances, Watchlists) - UserA
+    await Reservation.create({ user: userA._id, item: bow._id });
+
+    await ContractAcceptance.create({
+      user: userA._id,
+      contract: herbsContract._id,
+      instructions: 'Deliver the herbs to the guild alchemist by next week.',
+    });
+    await Watchlist.create({
+      user: userA._id,
+      targetId: scoutContract._id,
+      targetType: 'Contract',
+    });
+    await Watchlist.create({
+      user: userA._id,
+      targetId: amulet._id,
+      targetType: 'Item',
+    });
+
+    await Notification.create({
+      user: userA._id,
+      targetId: herbsContract._id,
+      targetType: 'Contract',
+      message: 'You accepted: Gather Sunpetal Herbs',
+      status: 'read',
     });
 
     console.log('Seeding completed successfully for all 7 models!');

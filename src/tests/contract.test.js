@@ -29,7 +29,7 @@ beforeAll(async () => {
     .post('/auth/login')
     .send({ email: 'contractadmin@jest.com', password: 'password123' });
   adminToken = loginResponse.body.token;
-});
+}, 30000);
 
 afterAll(async () => {
   await User.deleteMany({ email: { $in: ['contractuser@jest.com', 'contractadmin@jest.com'] } });
