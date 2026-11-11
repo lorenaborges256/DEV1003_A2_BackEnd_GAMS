@@ -5,6 +5,9 @@ const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
 const adminController = require('../controllers/adminController');
 
+// GET /admin/watch-stats — get watchlist statistics
+router.get('/watch-stats', verifyToken, isAdmin, adminController.getWatchStats);
+
 // GET /admin/users — list all users
 router.get('/users', verifyToken, isAdmin, adminController.getUsers);
 

@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Watchlist = require('../models/Watchlist');
 
 // GET /admin/users
 // Returns a list of all registered users (passwords excluded)
@@ -42,4 +43,21 @@ const deleteUser = async (request, response, next) => {
   }
 };
 
-module.exports = { getUsers, getUserById, deleteUser };
+
+const getWatchStats = async (request, response, next) => {
+  try {
+    const [watchedItems, watchedContracts] = await Promise.all([
+      Watchlist.countDocuments({ targetType: 'Item' }),
+      Watchlist.countDocuments({ targetType: 'Contract' }),
+    ]);
+
+    return response.status(200).json({
+      watchedItems,
+      watchedContracts,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { getUsers, getUserById, deleteUser, getWatchStats };
