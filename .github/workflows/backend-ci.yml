@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - feature/add-docker-workflow
   workflow_dispatch:
 
 permissions:
@@ -42,12 +41,9 @@ jobs:
           NODE_ENV: development
         run: npm test -- --runInBand
 
-      - name: Get application version
+      - name: Get application version and short Git commit SHA
         run: |
           echo "APP_VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
-
-      - name: Get short Git commit SHA
-        run: |
           echo "SHORT_SHA=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
 
       - name: Set up Docker Buildx
