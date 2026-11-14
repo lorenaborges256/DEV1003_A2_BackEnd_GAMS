@@ -69,4 +69,10 @@ const getWatchStats = async (request, response, next) => {
   }
 };
 
-module.exports = { getUsers, getUserById, deleteUser, getWatchStats };
+module.exports = {
+  getUsers,
+  getUserById,
+  deleteUser,
+  getWatchStats,
+};
+
