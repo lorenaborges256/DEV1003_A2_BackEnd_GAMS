@@ -1,6 +1,6 @@
 # DEV1003 - Advanced Applications - Assessment 2 - Construct a Back-end Web Application
 
-## Courtney Macgregor - Lorena Borges Amaral #test
+## Courtney Macgregor - Lorena Borges Amaral
 
 ### GitHub Repository: [https://github.com/lorenaborges256/DEV1003_A2_BackEnd_GAMS](https://github.com/lorenaborges256/DEV1003_A2_BackEnd_GAMS)
 
