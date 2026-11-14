@@ -34,7 +34,7 @@ beforeAll(async () => {
     stockQuantity: 5,
   });
   testItemId = item._id.toString();
-});
+}, 30000);
 
 afterAll(async () => {
   await User.deleteMany({ email: TEST_USER_EMAIL });
