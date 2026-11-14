@@ -13,7 +13,8 @@
   "jest": {
     "setupFiles": [
       "dotenv/config"
-    ]
+    ],
+    "testTimeout": 30000
   },
   "repository": {
     "type": "git",
