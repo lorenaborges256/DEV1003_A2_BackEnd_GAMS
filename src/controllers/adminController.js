@@ -30,8 +30,12 @@ const getUserById = async (request, response, next) => {
 const deleteUser = async (request, response, next) => {
   try {
     if (request.params.id === request.user.id) {
-      return next({ status: 400, message: 'Admins cannot delete their own account' });
+      return next({
+        status: 400,
+        message: 'Admins cannot delete their own account',
+      });
     }
+
     const user = await User.findByIdAndDelete(request.params.id);
     if (!user) {
       return next({ status: 404, message: 'User not found' });
@@ -42,4 +46,8 @@ const deleteUser = async (request, response, next) => {
   }
 };
 
-module.exports = { getUsers, getUserById, deleteUser };
+module.exports = {
+  getUsers,
+  getUserById,
+  deleteUser,
+};
